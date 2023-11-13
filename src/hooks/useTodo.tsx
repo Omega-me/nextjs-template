@@ -8,7 +8,7 @@ import { QueryClient, useQuery } from '@tanstack/react-query';
  *
  * @param opts
  */
-export const prefetchTodo = async <TData,>(opts: { queryClient: QueryClient; config: IQueryOpts<TData> }) => {
+export const prefetchTodo = async <TData,>(opts: { queryClient: QueryClient; config?: IQueryOpts<TData> }) => {
   const { url, keys, axiosConfig } = generatUrlAndKeys({
     config: opts.config,
     keys: [eApiRoutes.TODOS],
@@ -23,7 +23,7 @@ export const prefetchTodo = async <TData,>(opts: { queryClient: QueryClient; con
         message: opts.config?.httpConfig?.message,
         ...opts.config?.httpConfig,
       }),
-    ...opts.config.queryConfig,
+    ...opts?.config?.queryConfig,
   });
 };
 

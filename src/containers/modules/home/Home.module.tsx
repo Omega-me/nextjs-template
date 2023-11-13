@@ -4,18 +4,21 @@ import { useTodoQuery } from '@/hooks';
 import React from 'react';
 
 const HomeModule = () => {
-  const { data: datas } = useTodoQuery({
+  useTodoQuery({
     queryConfig: {
       meta: {
         test: 'test',
       },
     },
   });
-  const { data } = useTodoQuery({
+  const { data, isLoading, isError, error } = useTodoQuery({
     queryConfig: {
       queryParam: '1',
     },
   });
+
+  if (isLoading) return <h1>Loading...</h1>;
+  if (isError) return <h1>{error.message}</h1>;
 
   return (
     <div>
