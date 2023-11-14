@@ -1,7 +1,7 @@
 ## Create visual studio snippets for generating pages, utils, modules and components content to work faster with the architecture
 
 - use "np" snippet for generating a next page content
-- use "npu" snippet for generating a next page utils content
+- use "nu" snippet for generating a next page utils content
 - use "nm" snippet for generating a next module content
 - use "nc" snippet for generating a next component content
 
@@ -43,7 +43,7 @@
   },
   "Create next js page utils": {
     "scope": "javascript,typescript",
-    "prefix": "npu",
+    "prefix": "nu",
     "body": [
       "import { QueryClient } from '@tanstack/react-query';",
       "",
@@ -62,11 +62,11 @@
       "'use client';",
       "import { $1 } from '@/containers/components';",
       "",
-      "const $1Module = () => {",
+      "const $TM_FILENAME_BASE = () => {",
       "return <$1/>",
       "};",
       "",
-      "export default $1Module;",
+      "export default $TM_FILENAME_BASE;",
       "$2"
     ],
     "description": "Create a next js module snippet"
@@ -77,13 +77,13 @@
     "body": [
       "'use client';",
       "",
-      "interface $1Props{}",
+      "interface ${TM_FILENAME_BASE}Props{}",
       "",
-      "const $1:React.FC<$1Props> = (props) => {",
-      "return <div>$1</div>;",
+      "const $TM_FILENAME_BASE:React.FC<${TM_FILENAME_BASE}Props> = (props) => {",
+      "return <div>$TM_FILENAME_BASE</div>;",
       "};",
       "",
-      "export default $1;",
+      "export default $TM_FILENAME_BASE;",
       "$2"
     ],
     "description": "Create a next js component snippet"
