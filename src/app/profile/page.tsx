@@ -1,7 +1,15 @@
-import React from 'react';
+import { prefetchQuery } from './utils';
+import { ProfileModule } from '@/containers/modules';
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 
-const ProfilePage = () => {
-  return <div>ProfilePage</div>;
+const ProfilePage = async () => {
+  const queryClient = await prefetchQuery();
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <ProfileModule />
+    </HydrationBoundary>
+  );
 };
 
 export default ProfilePage;

@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Create visual studio snippets for generating pages, utils, modules and components content to work faster with the architecture
 
-## Getting Started
+use "np" snippet for generating a next page content
+use "npu" snippet for generating a next page utils content
+use "nm" snippet for generating a next module content
+use "nc" snippet for generating a next component content
 
-First, run the development server:
+### This is the vs code config to create the snippets
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- To create the snippets on vs code press "ctrl+shift+p" and search "Configure User Snippets" and press "enter" and go to "New Global Snippet file..." and press "enter", add a snippet name and then paste the below code snippet to the config file. Now you can use snippets to generate content on js, ts and ts react files.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+{
+// Place your global snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
+// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
+// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is
+// used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
+// Placeholders with the same ids are connected.
+"Create next js page": {
+"scope": "javascript,typescript,typescriptreact",
+"prefix": "np",
+"body": [
+"import { prefetchQuery } from './utils';",
+"import { $1Module } from '@/containers/modules';",
+"import { HydrationBoundary, dehydrate } from '@tanstack/react-query';",
+"",
+"",
+"const $1Page = async () => {",
+"const queryClient = await prefetchQuery();",
+"",
+"return (",
+"<HydrationBoundary state={dehydrate(queryClient)}>",
+"<$1Module />",
+"</HydrationBoundary>",
+")",
+"};",
+"",
+"export default $1Page;",
+"$2"
+],
+"description": "Create a next js page snippet"
+},
+"Create next js page utils": {
+"scope": "javascript,typescript",
+"prefix": "npu",
+"body": [
+"import { QueryClient } from '@tanstack/react-query';",
+"",
+"export const prefetchQuery = async (): Promise<QueryClient> => {",
+"const queryClient = new QueryClient();",
+"",
+"return queryClient;",
+"};"
+],
+"description": "Create a next js page utils snippet"
+},
+"Create next js module": {
+"scope": "javascript,typescript,typescriptreact",
+"prefix": "nm",
+"body": [
+"'use client';",
+"import { $1 } from '@/containers/components';",
+"",
+"const $1Module = () => {",
+"return <$1/>",
+"};",
+"",
+"export default $1Module;",
+"$2"
+],
+"description": "Create a next js module snippet"
+},
+"Create next js component": {
+"scope": "javascript,typescript,typescriptreact",
+"prefix": "nc",
+"body": [
+"'use client';",
+"",
+"interface $1Props{}",
+"",
+"const $1:React.FC<$1Props> = (props) => {",
+"return <div>$1</div>;",
+"};",
+"",
+"export default $1;",
+"$2"
+],
+"description": "Create a next js component snippet"
+}
+}

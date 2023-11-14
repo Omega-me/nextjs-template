@@ -1,9 +1,10 @@
 import { TestModule } from '@/containers/modules';
-import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import React from 'react';
+import { prefetchQuery } from '../utils';
 
-const TestPage = () => {
-  const queryClient = new QueryClient();
+const TestPage = async () => {
+  const queryClient = await prefetchQuery();
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <TestModule />
