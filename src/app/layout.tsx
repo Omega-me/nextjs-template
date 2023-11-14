@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Link from 'next/link';
-import { RectQueryProvider } from '@/state';
+import { QueryProvider } from '@/state';
 import '../common/styles/globals.css';
 
 interface RootLayoutProps {
@@ -32,7 +32,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
             </li>
           </ul>
         </div>
-        <RectQueryProvider>{children}</RectQueryProvider>
+        <QueryProvider>{children}</QueryProvider>
         <div>this is home page footer</div>
       </body>
     </html>

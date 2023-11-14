@@ -1,1 +1,1 @@
-export { default as RectQueryProvider } from './provider/RectQueryProvider';
+export { default as QueryProvider } from './provider/QueryProvider';

@@ -14,12 +14,14 @@ const HomeModule = () => {
   const { data, isLoading, isError, error } = useTodoQuery({
     queryConfig: {
       queryParam: '1',
+      meta: {
+        test: 'test',
+      },
     },
   });
 
   if (isLoading) return <h1>Loading...</h1>;
   if (isError) return <h1>{error.message}</h1>;
-
   return (
     <div>
       <pre>{JSON.stringify(data)}</pre>{' '}

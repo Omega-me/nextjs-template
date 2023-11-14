@@ -3,7 +3,7 @@ import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-qu
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import React, { useState } from 'react';
 
-const RectQueryProvider = ({ children }: { children: React.ReactNode }) => {
+const QueryProvider = ({ children }: { children: React.ReactNode }) => {
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -25,4 +25,4 @@ const RectQueryProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default RectQueryProvider;
+export default QueryProvider;
