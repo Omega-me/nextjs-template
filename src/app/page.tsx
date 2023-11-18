@@ -1,12 +1,15 @@
+import { PageProps, prefetchQuery } from './utils';
 import { HomeModule } from '@/containers/modules';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
-import { prefetchQuery } from './utils';
 
-export default async function HomePage() {
-  const queryClient = await prefetchQuery();
+const HomePage = async (props: PageProps) => {
+  const queryClient = await prefetchQuery(props);
+
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <HomeModule />
     </HydrationBoundary>
   );
-}
+};
+
+export default HomePage;

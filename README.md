@@ -1,9 +1,13 @@
 ## Create visual studio snippets for generating pages, utils, modules and components content to work faster with the architecture
 
-- use "np" snippet for generating a next page content
-- use "nu" snippet for generating a next page utils content
-- use "nm" snippet for generating a next module content
-- use "nc" snippet for generating a next component content
+- use "pg" snippet for generating a next page
+- use "pg-with-mod" snippet for generating a next page with react query and module support
+- use "pg-util-mod-par" snippet for generating a next page utils content with react query support and params interface (useful if using dynamic routes, and module support)
+- use "pg-util-par" snippet for generating a next page utils content with params interface (useful if using dynamic routes)
+- use "pg-util-mod" snippet for generating a next page utils content with react query support
+- use "pg-util" snippet for generating a next page utils content
+- use "pg-module" snippet for generating a next module content
+- use "pg-component" snippet for generating a next component content
 
 ### This is the vs code config to create the snippets
 
@@ -19,15 +23,31 @@
   // Placeholders with the same ids are connected.
   "Create next js page": {
     "scope": "javascript,typescript,typescriptreact",
-    "prefix": "np",
+    "prefix": "pg",
     "body": [
-      "import { prefetchQuery } from './utils';",
+      "import { PageProps } from './utils';",
+      "",
+      "const $1Page = async (props: PageProps) => {",
+      "",
+      "return (<div>$1</div>)",
+      "};",
+      "",
+      "export default $1Page;",
+      "$2"
+    ],
+    "description": "Create a next js page snippet"
+  },
+  "Create next js page with module": {
+    "scope": "javascript,typescript,typescriptreact",
+    "prefix": "pg-with-mod",
+    "body": [
+      "import { PageProps, prefetchQuery } from './utils';",
       "import { $1Module } from '@/containers/modules';",
       "import { HydrationBoundary, dehydrate } from '@tanstack/react-query';",
       "",
       "",
-      "const $1Page = async () => {",
-      "const queryClient = await prefetchQuery();",
+      "const $1Page = async (props: PageProps) => {",
+      "const queryClient = await prefetchQuery(props);",
       "",
       "return (",
       "<HydrationBoundary state={dehydrate(queryClient)}>",
@@ -39,52 +59,85 @@
       "export default $1Page;",
       "$2"
     ],
-    "description": "Create a next js page snippet"
+    "description": "Create a next js page snippet with module and react query support"
   },
-  "Create next js page utils": {
-    "scope": "javascript,typescript",
-    "prefix": "nu",
+  "Create next js utils for a page with module and params": {
+    "scope": "javascript,typescript,typescriptreact",
+    "prefix": "pg-util-mod-par",
     "body": [
+      "import { IPageProps } from '@/common/interfaces';",
       "import { QueryClient } from '@tanstack/react-query';",
       "",
-      "export const prefetchQuery = async (): Promise<QueryClient> => {",
+      "export interface PageProps extends IPageProps { params: { ${TM_DIRECTORY/.*[\\\\|\\/]+[[...]+(.*)+[\\[(.*?)\\]]/${1: }/}: string[] | string } }",
+      "",
+      "export const prefetchQuery = async (props: PageProps): Promise<QueryClient> => {",
       "const queryClient = new QueryClient();",
       "",
       "return queryClient;",
       "};"
     ],
+    "description": "Create a next js page utils snippet with react query support and params for dynamic routing"
+  },
+  "Create next js page utils with params": {
+    "scope": "javascript,typescript,typescriptreact",
+    "prefix": "pg-util-par",
+    "body": [
+      "import { IPageProps } from '@/common/interfaces';",
+      "",
+      "export interface PageProps extends IPageProps { params: { ${TM_DIRECTORY/.*[\\\\|\\/]+[[...]+(.*)+[\\[(.*?)\\]]/${1: }/}: string[] | string } }"
+    ],
+    "description": "Create a next js page utils snippet with params for dynamic routing"
+  },
+  "Create next js utils for a page with module": {
+    "scope": "javascript,typescript,typescriptreact",
+    "prefix": "pg-util-mod",
+    "body": [
+      "import { IPageProps } from '@/common/interfaces';",
+      "import { QueryClient } from '@tanstack/react-query';",
+      "",
+      "export interface PageProps extends IPageProps { }",
+      "",
+      "export const prefetchQuery = async (props: PageProps): Promise<QueryClient> => {",
+      "const queryClient = new QueryClient();",
+      "",
+      "return queryClient;",
+      "};"
+    ],
+    "description": "Create a next js page utils snippet with react query support and params for dynamic routing"
+  },
+  "Create next js page utils": {
+    "scope": "javascript,typescript,typescriptreact",
+    "prefix": "pg-util",
+    "body": ["import { IPageProps } from '@/common/interfaces';", "", "export interface PageProps extends IPageProps { }"],
     "description": "Create a next js page utils snippet"
   },
   "Create next js module": {
     "scope": "javascript,typescript,typescriptreact",
-    "prefix": "nm",
+    "prefix": "pg-module",
     "body": [
       "'use client';",
-      "import { $1 } from '@/containers/components';",
+      "import { ${TM_FILENAME_BASE/([^.]+).*/${1:/pascalcase}/} } from '@/containers/components';",
       "",
-      "const $TM_FILENAME_BASE = () => {",
-      "return <$1/>",
+      "const ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/g} = () => {",
+      "return <${TM_FILENAME_BASE/([^.]+).*/${1:/pascalcase}/}/>",
       "};",
       "",
-      "export default $TM_FILENAME_BASE;",
-      "$2"
+      "export default ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/g};"
     ],
     "description": "Create a next js module snippet"
   },
   "Create next js component": {
     "scope": "javascript,typescript,typescriptreact",
-    "prefix": "nc",
+    "prefix": "pg-component",
     "body": [
       "'use client';",
       "",
-      "interface ${TM_FILENAME_BASE}Props{}",
+      "interface ${TM_FILENAME_BASE/([^.]+).*/${1:/pascalcase}/}Props{ }",
       "",
-      "const $TM_FILENAME_BASE:React.FC<${TM_FILENAME_BASE}Props> = (props) => {",
-      "return <div>$TM_FILENAME_BASE</div>;",
+      "const ${TM_FILENAME_BASE/([^.]+).*/${1:/pascalcase}/}:React.FC<${TM_FILENAME_BASE/([^.]+).*/${1:/pascalcase}/}Props> = (props) => {",
+      "return <div>${TM_FILENAME_BASE/([^.]+).*/${1:/pascalcase}/}</div>;",
       "};",
-      "",
-      "export default $TM_FILENAME_BASE;",
-      "$2"
+      "export default ${TM_FILENAME_BASE/([^.]+).*/${1:/pascalcase}/};"
     ],
     "description": "Create a next js component snippet"
   }

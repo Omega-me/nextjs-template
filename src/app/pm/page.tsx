@@ -1,15 +1,15 @@
 import { PageProps, prefetchQuery } from './utils';
-import { TestDetailModule } from '@/containers/modules';
+import { PmModule } from '@/containers/modules';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 
-const TestDetailPage = async (props: PageProps) => {
+const PmPage = async (props: PageProps) => {
   const queryClient = await prefetchQuery(props);
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <TestDetailModule />
+      <PmModule />
     </HydrationBoundary>
   );
 };
 
-export default TestDetailPage;
+export default PmPage;
