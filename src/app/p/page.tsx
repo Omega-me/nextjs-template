@@ -1,7 +1,7 @@
 import { PageProps } from './utils';
 
 const PPage = async (props: PageProps) => {
-  return <div>P</div>;
+  return <div>PPage</div>;
 };
 
 export default PPage;
