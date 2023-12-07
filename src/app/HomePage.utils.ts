@@ -1,16 +1,10 @@
+import { IPageProps } from '@/common/interfaces';
 import { prefetchTodo } from '@/hooks';
 import { QueryClient } from '@tanstack/react-query';
 
-export interface PageProps {
-  params: {
-    [key: string]: string | string[];
-  };
-  searchParams: {
-    [key: string]: string | string[];
-  };
-}
+export interface HomePageProps extends IPageProps {}
 
-export const prefetchQuery = async (props: PageProps): Promise<QueryClient> => {
+export const prefetchQuery = async (props: HomePageProps): Promise<QueryClient> => {
   const queryClient = new QueryClient();
 
   await prefetchTodo({

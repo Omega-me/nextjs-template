@@ -1,8 +1,8 @@
-import { PageProps, prefetchQuery } from './utils';
+import { TestPageProps, prefetchQuery } from './TestPage.utils';
 import { TestModule } from '@/containers/modules';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 
-const TestPage = async (props: PageProps) => {
+const TestPage = async (props: TestPageProps) => {
   const queryClient = await prefetchQuery(props);
 
   return (
