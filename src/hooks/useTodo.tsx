@@ -9,10 +9,12 @@ import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/re
  * @param opts
  */
 export const prefetchTodo = async <TData,>(opts: { queryClient: QueryClient; config?: IQueryOpts<TData> }) => {
+  const route = eApiRoutes.TODOS;
+
   const { url, keys, axiosConfig } = generatUrlAndKeys({
     config: opts.config,
-    keys: [eApiRoutes.TODOS],
-    url: eApiRoutes.TODOS,
+    keys: [route],
+    url: route,
   });
 
   await opts.queryClient.prefetchQuery({
@@ -34,11 +36,12 @@ export const prefetchTodo = async <TData,>(opts: { queryClient: QueryClient; con
  */
 export const useTodoQuery = <TData,>(opts?: IQueryOpts<TData>) => {
   const queryClient = useQueryClient();
+  const route = eApiRoutes.TODOS;
 
   const { url, keys, axiosConfig } = generatUrlAndKeys<TData>({
     config: opts,
-    keys: [eApiRoutes.TODOS],
-    url: eApiRoutes.TODOS,
+    keys: [route],
+    url: route,
   });
 
   const { data, ...query } = useQuery({
@@ -69,10 +72,11 @@ export const useTodoQuery = <TData,>(opts?: IQueryOpts<TData>) => {
  */
 export const useTodoMutation = <TData,>(opts?: IMuattionOpts<TData>) => {
   const queryClient = useQueryClient();
+  const route = eApiRoutes.TODOS;
   const { url, keys, axiosConfig, methode, hasInvalidation, hasErrorHandling } = generatUrlAndKeys<TData>({
     config: opts,
-    keys: [eApiRoutes.TODOS],
-    url: eApiRoutes.TODOS,
+    keys: [route],
+    url: route,
     isMuatation: true,
   });
 
@@ -88,7 +92,7 @@ export const useTodoMutation = <TData,>(opts?: IMuattionOpts<TData>) => {
     onSuccess(data, variables, context) {
       if (hasInvalidation) {
         queryClient.invalidateQueries({
-          queryKey: [eApiRoutes.TODOS],
+          queryKey: [route],
         });
       }
       if (opts?.queryConfig?.onSuccessFn) {
