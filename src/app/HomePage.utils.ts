@@ -15,7 +15,7 @@ export const prefetchQuery = async (props: HomePageProps): Promise<QueryClient> 
     queryClient,
     config: {
       queryConfig: {
-        queryParam: '1',
+        queryParam: '199',
       },
     },
   });

@@ -1,26 +1,43 @@
-import { QueryKey } from '@tanstack/react-query';
-import { IQueryOpts } from '../interfaces';
+import { MutationKey, QueryKey } from '@tanstack/react-query';
+import { IMuattionOpts, IMutationConfig, IQueryOpts } from '../interfaces';
 import { AxiosRequestConfig } from 'axios';
-import { eApiRoutes } from '../enums';
+import { eApiRoutes, eHttpMethod } from '../enums';
 
 /**
  *
  * @param opts
  * @returns
  */
-export const generatUrlAndKeys = (opts: {
-  config?: IQueryOpts<any>;
+export const generatUrlAndKeys = <TData>(opts: {
+  config?: IQueryOpts<TData> | IMuattionOpts<TData>;
   url: string;
   keys: string[];
+  isMuatation?: boolean;
 }): {
   url: string;
-  keys: QueryKey;
+  keys: QueryKey | MutationKey;
   axiosConfig: AxiosRequestConfig;
+  methode: eHttpMethod | undefined;
+  hasInvalidation: boolean;
+  hasErrorHandling: boolean;
 } => {
   let url: string = eApiRoutes.TODOS;
   let keys: QueryKey = [eApiRoutes.TODOS];
   let hasAuthentication = true;
+  let hasInvalidation = true;
+  let hasErrorHandling = true;
+  let methode: eHttpMethod | undefined = undefined;
 
+  if (opts.isMuatation) {
+    methode = eHttpMethod.POST;
+    const mutationConfig = opts.config as IMuattionOpts<TData>;
+    if (mutationConfig?.queryConfig?.hasInvalidation === false) {
+      hasInvalidation = false;
+    }
+    if (mutationConfig?.queryConfig?.hasErrorHandling === false) {
+      hasErrorHandling = false;
+    }
+  }
   if (opts.config?.queryConfig?.queryUrl) {
     url = `${opts.url}/${opts.config.queryConfig.queryUrl}`;
     keys = [...keys, opts.config.queryConfig.queryUrl];
@@ -28,6 +45,9 @@ export const generatUrlAndKeys = (opts: {
   if (opts.config?.queryConfig?.queryParam) {
     url = `${opts.url}/${opts.config.queryConfig.queryParam}`;
     keys = [...keys, opts.config.queryConfig.queryParam];
+    if (opts.isMuatation) {
+      methode = eHttpMethod.PATCH;
+    }
   }
   if (opts.config?.queryConfig?.queryString) {
     url = `${opts.url}?${opts.config.queryConfig.queryString}`;
@@ -37,6 +57,9 @@ export const generatUrlAndKeys = (opts: {
     keys = [...keys, opts.config?.queryConfig?.queryKey];
   }
 
+  if (opts.isMuatation && opts?.config?.httpConfig?.methode) {
+    methode = opts?.config?.httpConfig?.methode;
+  }
   if (opts.config?.httpConfig?.axiosConfig?.hasAuth) {
     hasAuthentication = opts.config?.httpConfig?.axiosConfig?.hasAuth;
   }
@@ -57,5 +80,8 @@ export const generatUrlAndKeys = (opts: {
     url,
     keys,
     axiosConfig,
+    methode,
+    hasInvalidation,
+    hasErrorHandling,
   };
 };

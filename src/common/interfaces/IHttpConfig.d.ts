@@ -7,11 +7,18 @@ import { useQuery } from '@tanstack/react-query';
 interface IAxiosConfig extends AxiosRequestConfig {
   hasAuth?: boolean;
 }
-// htpp config interface
+// htpp config interface for axios service
 export interface IHttpConfig<TData = unknown> {
   data?: TData;
   axiosConfig?: IAxiosConfig;
   message?: string;
+}
+
+// http config interface for react query
+export interface IQueryHttpConfig {
+  axiosConfig?: IAxiosConfig;
+  message?: string;
+  methode?: eHttpMethod;
 }
 
 // Axios response interface
@@ -30,7 +37,7 @@ interface IQueryConfig extends Omit<UseQueryOptions<TData, any, any, any>, 'quer
   showError?: boolean;
 }
 export interface IQueryOpts<TData = unknown> {
-  httpConfig?: IHttpConfig<TData>;
+  httpConfig?: IQueryHttpConfig;
   queryConfig?: IQueryConfig;
 }
 
@@ -42,31 +49,13 @@ interface IMutationConfig extends Omit<UseMutationOptions<TData, any, any, any>,
   queryUrl?: string;
   showError?: boolean;
   defaultInvalidation?: boolean;
-}
-export interface IMuattionOpts<TData = unknown> {
-  httpConfig?: {
-    methode?: eHttpMethod;
-    httpOptions?: IHttpConfig<TData>;
-  };
-  queryConfig?: IMutationConfig;
+  hasInvalidation?: boolean;
+  hasErrorHandling?: boolean;
+  onSuccessFn?: (data: any, variables: TData, context: any) => void;
+  onErrorFn?: (error?: any, variables?: TData, context?: any) => void;
 }
 
-// export interface IGlobalQueryConfig<TData = unknown> {
-//   httpConfig?: IHttpConfig<TData>;
-//   queryConfig: {
-//     queryOptions?: Omit<UseQueryOptions<TData, any, any, any>, 'queryKey' | 'queryFn'>;
-//     queryKey?: QueryKey;
-//     queryUrl: string;
-//   };
-// }
-// export interface IGlobalMutationConfig<TData = unknown> {
-//   httpConfig?: {
-//     methode?: eHttpMethod;
-//     httpOptions?: IHttpConfig<TData>;
-//   };
-//   queryConfig: {
-//     queryOptions?: Omit<UseMutationOptions<TData, any, any, any>, 'mutationFn'>;
-//     queryKey?: QueryKey;
-//     queryUrl: string;
-//   };
-// }
+export interface IMuattionOpts<TData = unknown> {
+  httpConfig?: IQueryHttpConfig;
+  queryConfig?: IMutationConfig;
+}
