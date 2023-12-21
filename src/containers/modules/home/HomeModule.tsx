@@ -1,11 +1,10 @@
 'use client';
-
-import { CreateTodoDTO, TodoDTO, UpdateTodoDTO } from '@/common/dto';
+import TodoDTO from '@/common/dto/TodoDTO';
 import { eHttpMethod } from '@/common/enums';
 import { useTodoMutation, useTodoQuery } from '@/hooks';
 import React, { useState } from 'react';
 
-const HomeModule = () => {
+export const HomeModule = () => {
   const [check, setCheck] = useState(false);
   const { data, isLoading, isError, error } = useTodoQuery<TodoDTO>({
     queryConfig: {
@@ -18,12 +17,13 @@ const HomeModule = () => {
 
   const { mutate: createTodo } = useTodoMutation<CreateTodoDTO>();
   const { mutate: updateTodo } = useTodoMutation<UpdateTodoDTO>({
+    httpConfig: {},
     queryConfig: {
       queryParam: '199',
     },
   });
   const {
-    mutate: removeTodo,
+    mutate: remove,
     isPending,
     isError: isDeleteError,
     error: deleteError,
@@ -37,21 +37,23 @@ const HomeModule = () => {
   });
 
   const handleCreateTodo = () => {
-    const dto = new UpdateTodoDTO();
+    const dto = new Upda();
 
     setCheck(!check);
 
     dto.completed = check;
+    dto.title = 'this is title';
+
     updateTodo(dto);
   };
 
   const handleUpdateTodo = () => {
-    const dto: CreateTodoDTO = {
-      completed: check,
-      title: 'this is title',
-    };
+    const dto = new TodoDTO();
 
     setCheck(!check);
+
+    dto.completed = check;
+    dto.title = 'this is title';
 
     updateTodo(dto);
   };
@@ -63,11 +65,9 @@ const HomeModule = () => {
   return (
     <div>
       <button onClick={() => createTodo({ completed: false, title: 'test tirtle', userId: 1 })}>create</button>
-      <button onClick={handleUpdateTodo}>update</button>
-      <button onClick={() => removeTodo({})}>remove</button>
+      <button onClick={handleUpdate}>update</button>
+      <button onClick={() => remove({})}>remove</button>
       <pre>{JSON.stringify(data)}</pre>{' '}
     </div>
   );
 };
-
-export default HomeModule;
