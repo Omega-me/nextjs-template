@@ -1,5 +1,5 @@
 import { eApiRoutes, eHttpMethod } from '@/common/enums';
-import { IMuattionOpts, IQueryOpts } from '@/common/interfaces';
+import { IMutationOpts, IQueryOpts } from '@/common/interfaces';
 import { generatUrlAndKeys } from '@/common/utils';
 import { httpClient } from '@/services';
 import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -70,7 +70,7 @@ export const useTodoQuery = <TData,>(opts?: IQueryOpts<TData>) => {
  *
  * @param opts
  */
-export const useTodoMutation = <TData,>(opts?: IMuattionOpts<TData>) => {
+export const useTodoMutation = <TData,>(opts?: IMutationOpts<TData>) => {
   const queryClient = useQueryClient();
   const route = eApiRoutes.TODOS;
   const { url, keys, axiosConfig, methode, hasInvalidation, hasErrorHandling } = generatUrlAndKeys<TData>({

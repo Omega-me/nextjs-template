@@ -55,7 +55,7 @@ interface IMutationConfig extends Omit<UseMutationOptions<TData, any, any, any>,
   onErrorFn?: (error?: any, variables?: TData, context?: any) => void;
 }
 
-export interface IMuattionOpts<TData = unknown> {
+export interface IMutationOpts<TData = unknown> {
   httpConfig?: IQueryHttpConfig;
   queryConfig?: IMutationConfig;
 }

@@ -1,5 +1,5 @@
 import { MutationKey, QueryKey } from '@tanstack/react-query';
-import { IMuattionOpts, IMutationConfig, IQueryOpts } from '../interfaces';
+import { IMutationOpts, IQueryOpts } from '../interfaces';
 import { AxiosRequestConfig } from 'axios';
 import { eApiRoutes, eHttpMethod } from '../enums';
 
@@ -9,7 +9,7 @@ import { eApiRoutes, eHttpMethod } from '../enums';
  * @returns
  */
 export const generatUrlAndKeys = <TData>(opts: {
-  config?: IQueryOpts<TData> | IMuattionOpts<TData>;
+  config?: IQueryOpts<TData> | IMutationOpts<TData>;
   url: string;
   keys: string[];
   isMuatation?: boolean;
@@ -30,7 +30,7 @@ export const generatUrlAndKeys = <TData>(opts: {
 
   if (opts.isMuatation) {
     methode = eHttpMethod.POST;
-    const mutationConfig = opts.config as IMuattionOpts<TData>;
+    const mutationConfig = opts.config as IMutationOpts<TData>;
     if (mutationConfig?.queryConfig?.hasInvalidation === false) {
       hasInvalidation = false;
     }
