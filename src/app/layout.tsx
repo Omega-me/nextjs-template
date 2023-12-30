@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { QueryProvider } from '@/common/providers';
 import Link from 'next/link';
-import { QueryProvider } from '@/state';
 import '../common/styles/globals.css';
 
 interface RootLayoutProps {

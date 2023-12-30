@@ -1,6 +1,6 @@
 'use client';
 
-import { CreateTodoDTO, TodoDTO, UpdateTodoDTO } from '@/common/dto';
+import { CreateTodoDTO, TodoDTO, UpdateTodoDTO } from '@/common/dto/TodoDTO';
 import { eHttpMethod } from '@/common/enums';
 import { useTodoMutation, useTodoQuery } from '@/hooks';
 import React, { useState } from 'react';

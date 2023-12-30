@@ -3,7 +3,11 @@ import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-qu
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import React, { useState } from 'react';
 
-const QueryProvider = ({ children }: { children: React.ReactNode }) => {
+interface QueryProviderProps {
+  children: React.ReactNode;
+}
+
+export const QueryProvider: React.FC<QueryProviderProps> = props => {
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -20,9 +24,7 @@ const QueryProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
-      {children}
+      {props.children}
     </QueryClientProvider>
   );
 };
-
-export default QueryProvider;
